@@ -15,3 +15,9 @@
 3.  git push origin <BRANCH-NOMI>
 
 
+// mavjud brendagini yangsig olamiz
+
+git add .
+git checkout -b "yangi brench nomi"
+git push origin "yangi brench nomi"
+

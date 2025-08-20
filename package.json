@@ -1,10 +1,10 @@
 {
-  "name": "2.telegram-bot(telegraf)",
+  "name": "BOT",
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node --watch bot.js"
+    "start": "node --watch index.js"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +13,7 @@
   "dependencies": {
     "axios": "^1.11.0",
     "dotenv": "^17.2.1",
+    "express": "^5.1.0",
     "instagram-url-direct": "^2.0.7",
     "play-dl": "^1.9.7",
     "telegraf": "^4.16.3",

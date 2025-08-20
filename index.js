@@ -4,8 +4,6 @@ import { instagramGetUrl } from "instagram-url-direct";
 import "dotenv/config.js";
 
 const app = express();
-
-// Bot
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
 const ADMIN = "@admiral6878";
@@ -24,40 +22,29 @@ bot.start((ctx) =>
 // Text handler
 bot.on("text", async (ctx) => {
     const url = ctx.message.text;
-
     try {
         if (url.includes("instagram.com")) {
-            // Kutish xabari
-            const waitMsg = await ctx.reply(
-                "⏳ Videoni yuklab olyapman...\n\nOzgina kutaolasizmi... 🙏"
-            );
+            const waitMsg = await ctx.reply("⏳ Videoni yuklab olyapman...");
 
             await ctx.sendChatAction("upload_video");
-
-            // Instagram video link
             const result = await instagramGetUrl(url);
+
             if (!result?.url_list?.length) {
                 await ctx.deleteMessage(waitMsg.message_id);
                 return ctx.reply("❌ Video topilmadi yoki profil private bo‘lishi mumkin.");
             }
 
             const videoUrl = result.url_list[0];
-
             await ctx.replyWithVideo(
                 { url: videoUrl },
                 {
-                    caption:
-                        `✅ Video tayyor!\n\n` +
-                        `🤖 Bot nomi: ${BOT_NAME}\n` +
-                        `📦 Faqat Instagram videolarini yuklab oling.\n\n` +
-                        `👨🏻‍💻 Admin: ${ADMIN}`,
+                    caption: `✅ Video tayyor!\n\n🤖 Bot nomi: ${BOT_NAME}\n👨🏻‍💻 Admin: ${ADMIN}`,
                 }
             );
 
             await ctx.deleteMessage(waitMsg.message_id);
             return;
         }
-
         ctx.reply("❌ Iltimos, faqat Instagram videolar linkini yuboring ☹️");
     } catch (err) {
         console.error(err);
@@ -69,11 +56,10 @@ bot.on("text", async (ctx) => {
 app.use(bot.webhookCallback("/telegram"));
 
 const PORT = process.env.PORT || 3000;
-const URL = process.env.RENDER_EXTERNAL_URL || "https://instabot.onrender.com";
+const URL = process.env.RENDER_EXTERNAL_URL; // Render dagi domen
 
-// Telegram serveriga webhook o‘rnatamiz
 bot.telegram.setWebhook(`${URL}/telegram`);
 
 app.listen(PORT, () => {
-  console.log(`✅ Server ishga tushdi: ${PORT}`);
+  console.log(`✅ Server ishlayapti: ${PORT}`);
 });
